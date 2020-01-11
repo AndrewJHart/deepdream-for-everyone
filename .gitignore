@@ -30,3 +30,7 @@ coverage.xml
 env/
 venv/
 
+# pycharm & OSx
+.DS_Store
+.idea/
+
