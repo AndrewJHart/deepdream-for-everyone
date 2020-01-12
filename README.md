@@ -21,12 +21,13 @@ install the package `virtualenv` globally using `pip install virtualenv` or use 
 
 
 Before we start install our python dependencies we will need to install
-[caffe](http://caffe.berkeleyvision.org/install_osx.html) and those instructions
+[caffe](http://caffe.berkeleyvision.org/http://caffe.berkeleyvision.org/installation.html) and those instructions
 are a bit rusty, at least for the OSx link provided. Thus, I will walk
 you through the rough bits so you don't have issues with missing homebrew packages
 and installation issues. 
 
-> be aware that these are only the steps for OSx
+> be aware that these are only the steps for OSx. If you're using windows try following
+> the steps on the caffe link above and see if it works. 
 
 First you need to install [homebrew](http://brew.sh), so paste the
 following line into your terminal. 
