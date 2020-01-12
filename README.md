@@ -163,9 +163,8 @@ During the classification process we are providing input images and using gradie
 <img src="examples/deep_dream_5.jpeg">
 
 
-#### Original Author or user who wrote or modified the
-#### google deep dream code is:
- - Greg (Grzegorz) Surma
+#### Original Author who took the google deep dream script (or not) and made readable, maintainable code
+ - [Greg (Grzegorz) Surma](https://gsurma.github.io)
  
 #### Author of making this project work for everyone
  - [Andrew Hart](https://www.github.com/AndrewJHart)
