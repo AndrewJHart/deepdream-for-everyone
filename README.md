@@ -128,7 +128,7 @@ Now you can run your project
 To use on the predefined a specific image:
 
 ```bash
-(venv) $ python deep_dream.py name-of-your-img.jpeg
+(venv) $ python deep_dream.py <path_to_the_image>
 ```
 
 
