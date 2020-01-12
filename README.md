@@ -70,8 +70,8 @@ without it, but will use CPU instead of GPU.
 
 ### Configuring python virtual environments.
 
-If you already have virtualenv installed you can still use it like above except you specify which version of python you want
-to use when you create the virtualenv like so
+If you already have virtualenv installed you can still use it,  you specify which version of python you want
+to use when you create the virtualenv, by using -p or --python flag, like so:
 
 ```bash
 $ virtualenv -p python3 venv
