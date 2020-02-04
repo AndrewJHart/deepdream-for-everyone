@@ -3,8 +3,6 @@
 
 Minimal Python/TensorFlow implementation of the DeepDream algorithm originally created by [Alexander Mordvintsev](https://ai.googleblog.com/2015/06/inceptionism-going-deeper-into-neural.html).
 
-<center><a href="https://www.instagram.com/__deep__dreams__/">Daily dose of deep dreams on instagram.</a></center>
-
 ## Setup and Installation
 
 First you need to create a virutal environment because by default all versions of python install packages globally & 
@@ -12,12 +10,14 @@ this is *very bad*. Consider you use `sudo` and install some python2.7 version o
 random important task: you just potentially broke it. Ergo, you can create virtualenvs in one of two ways. You can safely 
 install the package `virtualenv` globally using `pip install virtualenv` or use built in python 3 flag to create an env.
 
-> Note, this package will not run on python 3.8. Its a tensorflow logging error due
-> to the old version of tensorflow I suspect. I did not write this python code
-> however, but ported it from a jupiter notebook and while tensorflow versions 
-> greater than 1.14 may work, anything as of version 2.0 will not. Too many breaking
-> changes. It wouldn't take long to fix the issues as most of the functions have simply
-> been moved to new modules or classes. 
+> Note, this package will not run on python on any version newer than python 3.6.5. 
+> Its a tensorflow error regarding some function call that its not worth taking 
+> the time to fix when we need to get tensorflow up to version 2.0 anyway by refactoring
+> the existing codebase. I did not write this python code
+> however, but ported it from a jupiter notebook and will take some time to go through
+> and update tensorflow to work with the breaking changes in version 2. For now, please
+> use python 3.6 and I suggest using pyenv which easily allows you have multiple versions
+> of python installed at the same time without conflict. 
 
 
 Before we start install our python dependencies we will need to install
