@@ -14,7 +14,7 @@ RESCALE_FACTOR = 0.7
 LEVELS = 5
 BLEND = 0.25
 BLUR_SIGMA = 0.5
-TILE_SIZE = 256
+TILE_SIZE = 512
 
 
 # Arbitrarily set layers to optimize
