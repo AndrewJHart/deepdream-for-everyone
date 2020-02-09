@@ -1,11 +1,26 @@
 
-# Deep Dream (for everyone)
+# Deep Dream for everyone
 
 Minimal Python/TensorFlow implementation of the DeepDream algorithm originally created by [Alexander Mordvintsev](https://ai.googleblog.com/2015/06/inceptionism-going-deeper-into-neural.html).
 
 ## Setup and Installation
 
-First you need to create a virutal environment because by default all versions of python install packages globally & 
+This will work on OSx and linux if you use homebrew for linux. Otherwise you can install 
+the brew packages via apt-get. Caffe does provide installation instructions
+for linux but i have not tested them. 
+
+> note that I was able to get this running on an nVidia Jetson nano
+> running ubuntu. By using `apt-get` and a specific version of Tensorflow
+> built for linux + GPU. All necessary python dependencies are in `requirements.txt`,
+> however you will want to remove all 3 tensorflow packages from `requirements.txt`
+> and point your jetson to this url for tensorflow v1.15 
+> `pip3 install --pre  https://developer.download.nvidia.com/compute/redist/jp/v43/https://developer.download.nvidia.com/compute/redist/jp/v43/tensorflow-gpu/tensorflow_gpu-1.15.0+nv19.12-cp36-cp36m-linux_aarch64.whl`
+> This will install tensorflow 1.15.0, then you can install the remaining
+> python dependencies.
+>
+> If you need help, please reach out :) 
+
+First you need to create a virtual environment because by default all versions of python install packages globally & 
 this is *very bad*. Consider you use `sudo` and install some python2.7 version of of a package that OSx uses for some
 random important task: you just potentially broke it. Ergo, you can create virtualenvs in one of two ways. You can safely 
 install the package `virtualenv` globally using `pip install virtualenv` or use built in python 3 flag to create an env.
@@ -20,17 +35,21 @@ install the package `virtualenv` globally using `pip install virtualenv` or use 
 > of python installed at the same time without conflict. 
 
 
-Before we start install our python dependencies we will need to install
+Before we start installing our python dependencies we will need to install
 [caffe](http://caffe.berkeleyvision.org/http://caffe.berkeleyvision.org/installation.html) and those instructions
 are a bit rusty, at least for the OSx link provided. Thus, I will walk
 you through the rough bits so you don't have issues with missing homebrew packages
 and installation issues. 
 
-> be aware that these are only the steps for OSx. If you're using windows try following
+> As mentioned before, dragons be here, thus 
+> be aware that these are only the steps for OSx & will likely work on linux  
+> with a bit of tinkering as previously mentioned. I do not provide
+> instructions for running this on windows, therefore if you're using windows try following
 > the steps on the caffe link above and see if it works. 
 
 First you need to install [homebrew](http://brew.sh), so paste the
-following line into your terminal. 
+following line into your terminal. (On linux, if you decide to use homebrew, you must first install ruby using 
+`sudo apt-get install ruby`)
 
 ```bash
 $ /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
@@ -47,18 +66,13 @@ keg. So follow these instructions and you should be good to go.
 
 ```
 $ brew install -vd snappy leveldb gflags glog szip lmdb
-
-# need the homebrew science source for OpenCV and hdf5
-# which no longer exists where Caffe states in homebrew/science
-# but now exists in brewsci/science
-
 $ brew tap brewsci/science
 $ brew install hdf5 opencv
 ``` 
 
 The docs mention setting some compiler flags but aren't needed
 for the various installations I've attempted on an array of macs
-with mojava or catalina at least. Lastly, run this:
+with various versions of OSx. Lastly, run this:
 
 ```bash
 $ brew install protobuf boost 
@@ -66,29 +80,31 @@ $ brew install protobuf boost
 
 By the way, if you have an NVidia card, see the top of the Caffe
 link about installing CUDA. Otherwise, neglect it. This script will run
-without it, but will use CPU instead of GPU.
+without it, but will use CPU instead of GPU. Although, you may be able
+to simply install tensorflow with the GPU version, as mentioned in
+the aside about installing this on a jetson nano, so CUDA may get installed
+automatically?
 
 
 ### Configuring python virtual environments.
 
 If you already have virtualenv installed you can still use it,  you specify which version of python you want
-to use when you create the virtualenv, by using -p or --python flag, like so:
+to use when you create the virtualenv, by using `-p` or `--python` flag, like so:
 
 ```bash
 $ virtualenv -p python3 venv
 ```
 
-Next you need to activate your virtual env:
-
-```bash
-$ source venv/bin/activate
-```
-
-If you **do not have virtualenv installed** python3 gives you a crafty builtin way to do this automatically by passing a flag. 
-Make sure you are in the root directory of your project and run these commands to install a python3 virtual env and activate it. 
+If you **do not have virtualenv installed**, python3 gives you a crafty builtin way to do this automatically by passing a flag. 
+Make sure you are in the root directory of your project and run this command to install a python3 virtual environment.  
 
 ```bash
 $ python3 -m venv venv
+```
+
+Next you need to activate your virtual env:
+
+```bash
 $ source venv/bin/activate
 ```
 
@@ -100,7 +116,7 @@ to this:
 (venv) $ 
 ```
 
-When you are done with running your python code later,
+Later, when you are done with running your python code,
 you can stop the virtual environment by simply running 
 
 ```bash
@@ -110,10 +126,22 @@ you can stop the virtual environment by simply running
 $ ...
 ```
 
+^ Do not deactivate this environment now, i'm just demonstrating how to 
+disable the enviroment later. You must always reactivate the virtual env
+before running your python  app. 
+
 ## Installing dependencies
 
-In standard python projects all dependencies are installed with pip and saved to a file named `requirements.txt`. This has
-been a python standard for as long as I can remember. Therefore, all you need to before being able to run the script is execute this command in your activated python3 virtual environment.
+In standard python projects all dependencies are installed with pip and saved to a file named `requirements.txt`. 
+
+> This has been a python standard for as long as I can remember.
+Anaconda is nice, and I haven't had much time to tinker with it but I can
+say that I have deployed many python applications into production 
+and written many serverless python apps as well as scripts and its always
+been a virtualenv, pip, and a requirements.txt file for dependencies.
+
+
+Therefore, all you need to before being able to run the script is execute this command in your activated python3 virtual environment.
 
 ```bash
 (venv) $ pip install -r requirements.txt
@@ -164,9 +192,9 @@ During the classification process we are providing input images and using gradie
 <img src="examples/deep_dream_5.jpeg">
 
 
-#### Original Author who took the google deep dream script (or not) and made readable, maintainable code
+#### Original Author who improved upon the original google deep dream script.
  - [Greg (Grzegorz) Surma](https://gsurma.github.io)
  
-#### Author of making this project work for everyone
+#### Author of making this project work for as many people as possible, with documentation, and dependencies, etc.... 
  - [Andrew Hart](https://www.github.com/AndrewJHart)
 
